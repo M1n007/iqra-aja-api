@@ -27,10 +27,10 @@ func collections(collection string) *mgo.Collection {
 }
 
 // GetAll returns all items from the database.
-func GetAll(collection string) ([]Models.Surah, error) {
+func GetAll(collection string, row int, param int) ([]Models.Surah, error) {
 	res := []Models.Surah{}
 
-	if err := collections(collection).Find(nil).All(&res); err != nil {
+	if err := collections(collection).Find(nil).Limit(row).Skip(param).All(&res); err != nil {
 		return nil, err
 	}
 
@@ -38,12 +38,12 @@ func GetAll(collection string) ([]Models.Surah, error) {
 }
 
 // GetOne returns a single item from the database.
-func GetMulti(id string, collection string) ([]Models.Ayat, error) {
+func GetMulti(id string, collection string, row int, param int) ([]Models.Ayat, error) {
 	res := []Models.Ayat{}
 	newId, _ := strconv.Atoi(id)
 	fmt.Println(id, collection)
 
-	if err := collections(collection).Find(bson.M{"sura_id": newId}).All(&res); err != nil {
+	if err := collections(collection).Find(bson.M{"sura_id": newId}).Limit(row).Skip(param).All(&res); err != nil {
 		return nil, err
 	}
 

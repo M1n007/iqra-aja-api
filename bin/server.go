@@ -13,8 +13,8 @@ func Init() {
 	r := mux.NewRouter()
 
 	//Routes
-	r.HandleFunc("/api/surah", iqra.GetAllItems).Methods("GET")
-	r.HandleFunc("/api/surah/{id}", iqra.GetItem).Methods("GET")
+	r.HandleFunc("/api/surah", iqra.GetAllSurah).Queries("page", "{page:[0-9]+}", "size", "{size:[0-9]+}").Methods("GET")
+	r.HandleFunc("/api/surah/{id}", iqra.GetAyatBySurahId).Queries("page", "{page:[0-9]+}", "size", "{size:[0-9]+}").Methods("GET")
 
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":9000", r))
