@@ -9,13 +9,6 @@ type Surah struct {
 	Count_ayat       int    `form:"count_ayat" json:"count_ayat"`
 }
 
-type Meta struct {
-	Page       int `form:"page" json:"page"`
-	Size       int `form:"size" json:"size"`
-	Total_page int `form:"total_page" json:"total_page"`
-	Total_data int `form:"total_data" json:"total_data"`
-}
-
 //Ayat models
 type Ayat struct {
 	Aya_id               int    `form:"aya_id" json:"aya_id"`
@@ -28,17 +21,18 @@ type Ayat struct {
 
 //Pagination Response Get Surah ...
 type PaginationResponseSurah struct {
-	Err     bool    `json:"err"`
-	Status  int     `json:"status"`
-	Message string  `json:"message"`
-	Data    []Surah `form:"data" json:"data"`
-	Meta    []Meta  `form:"meta" json:"meta"`
+	Err     bool                   `json:"err"`
+	Status  int                    `json:"status"`
+	Message string                 `json:"message"`
+	Data    []Surah                `form:"data" json:"data"`
+	Meta    map[string]interface{} `json:"meta"`
 }
 
 //Pagination Response Get Ayat ...
 type PaginationResponseAyat struct {
-	Err     bool   `json:"err"`
-	Status  int    `json:"status"`
-	Message string `json:"message"`
-	Data    []Ayat `form:"data" json:"data"`
+	Err     bool                   `json:"err"`
+	Status  int                    `json:"status"`
+	Message string                 `json:"message"`
+	Data    []Ayat                 `form:"data" json:"data"`
+	Meta    map[string]interface{} `json:"meta"`
 }

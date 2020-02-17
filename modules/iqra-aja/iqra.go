@@ -59,8 +59,6 @@ func GetAyatBySurahId(w http.ResponseWriter, req *http.Request) {
 	size, _ = strconv.Atoi(row)
 	page, _ = strconv.Atoi(param)
 
-	fmt.Println(size, page)
-
 	rs, err := mongodb.GetMulti(id, collection, size, page)
 	if err != nil {
 		handleError(err, "Failed to read database: %v", w)
