@@ -10,7 +10,7 @@ import (
 
 // Init Server
 func Init() {
-	r := mux.NewRouter()
+	r := mux.NewRouter().StrictSlash(false)
 
 	//Routes
 	r.HandleFunc("/api/surah", iqra.GetAllSurah).Queries("page", "{page:[0-9]+}", "size", "{size:[0-9]+}").Methods("GET")
