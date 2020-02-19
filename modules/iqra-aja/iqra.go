@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func handleError(err error, message string, w http.ResponseWriter) {
@@ -24,12 +25,22 @@ func GetAllSurah(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	row := vars["size"]
 	param := vars["page"]
+	search := vars["search"]
+
+	payloadFind := bson.M{
+		"$or": []bson.M{
+			bson.M{"surat_name": bson.M{"$regex": search, "$options": "i"}},
+			bson.M{"surat_text": bson.M{"$regex": search, "$options": "i"}},
+			bson.M{"surat_terjemahan": bson.M{"$regex": search, "$options": "i"}},
+			bson.M{"count_ayat": bson.M{"$regex": search, "$options": "i"}},
+		},
+	}
 
 	size, _ = strconv.Atoi(row)
 	page, _ = strconv.Atoi(param)
 
 	collection := "surah"
-	rs, err := mongodb.GetAll(collection, size, page)
+	rs, err := mongodb.GetAll(collection, size, page, payloadFind)
 	if err != nil {
 		handleError(err, "Failed to load database items: %v", w)
 		return

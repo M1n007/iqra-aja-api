@@ -25,8 +25,8 @@ func collections(collection string) *mgo.Collection {
 	return db.C(collection)
 }
 
-func countData(collection string) int {
-	totalData, _ := collections(collection).Count()
+func countData(collection string, find map[string]interface{}) int {
+	totalData, _ := collections(collection).Find(find).Count()
 
 	return totalData
 }
@@ -38,14 +38,14 @@ func countDataAyatBySurah(collection string, newId int) int {
 }
 
 // GetAll returns all items from the database.
-func GetAll(collection string, row int, param int) (Models.PaginationResponseSurah, error) {
+func GetAll(collection string, row int, param int, find map[string]interface{}) (Models.PaginationResponseSurah, error) {
 	var res Models.PaginationResponseSurah
 	var parameterPage int = row * (param - 1)
-	totalData := countData(collection)
+	totalData := countData(collection, find)
 
 	meta := Helpers.GenerateMeta(param, row, totalData)
 
-	if err := collections(collection).Find(nil).Limit(row).Skip(parameterPage).All(&res.Data); err != nil {
+	if err := collections(collection).Find(find).Limit(row).Skip(parameterPage).All(&res.Data); err != nil {
 		res.Err = true
 		res.Status = 500
 		res.Message = "internal server error"
