@@ -1,12 +1,12 @@
 package mongodb
 
 import (
+	"gopkg.in/mgo.v2"
 	Helpers "iqra-aja-api/helpers/utils"
 	Models "iqra-aja-api/models"
 	"log"
 	"strconv"
 
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -40,7 +40,7 @@ func countDataAyatBySurah(collection string, newId int) int {
 // GetAll returns all items from the database.
 func GetAll(collection string, row int, param int, find map[string]interface{}) (Models.PaginationResponseSurah, error) {
 	var res Models.PaginationResponseSurah
-	var parameterPage int = row * (param - 1)
+	var parameterPage int = row * (param - 1);
 	totalData := countData(collection, find)
 
 	meta := Helpers.GenerateMeta(param, row, totalData)
